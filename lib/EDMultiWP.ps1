@@ -97,7 +97,7 @@ $textBox.Location = New-Object System.Drawing.Point(40, 220)
 $textBox.Size = New-Object System.Drawing.Size(225, 25)
 $textBox.AutoCompleteMode = 'SuggestAppend'
 $textBox.AutoCompleteSource = 'CustomSource'
-Get-content $('{0}\{1}' -f $PSScriptRoot, 'systems.csv') | ForEach-Object { $textbox.AutoCompleteCustomSource.AddRange($_) }
+Get-content $('{0}\{1}' -f $PSScriptRoot, 'systems.csv') -ReadCount 1000 | ForEach-Object { $textbox.AutoCompleteCustomSource.AddRange($_) }
 $Form.Controls.Add($textBox)
 
 # -- Adding WP add button
