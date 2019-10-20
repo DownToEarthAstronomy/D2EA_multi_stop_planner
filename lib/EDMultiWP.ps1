@@ -2,10 +2,12 @@
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.VisualBasic") | Out-Null
 
 $Root_path = $('{0}\..' -f $PSScriptRoot)
+Write-host $('Rooth path: [{0}]' -f $Root_path)
 $global:CurrentFilePath = ''
 $global:Saved = $True
 
 # -- Import code blocks
+Write-host 'Loading modules'
 . $Root_path\lib\GetCoords.ps1
 . $Root_path\lib\GetRouteLength.ps1
 . $Root_path\lib\UpdateRouteLength.ps1
@@ -21,9 +23,11 @@ $global:Saved = $True
 
 $Font = New-Object System.Drawing.Font("Times New Roman", 14)
 
+write-host 'Running splash screen'
 $SplashProcess = start-process powershell $('{0}\lib\SplashForm.ps1' -f $Root_path) -PassThru -NoNewWindow
 
 # -- Creating the window
+Write-host 'Bruilding form'
 $Form = New-Object System.Windows.Forms.Form
 $Form.Text = "D2EA Multi-Waypoint"
 $Form.Size = New-Object System.Drawing.Size(900, 750)
