@@ -1,8 +1,10 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.VisualBasic") | Out-Null
 
-$Root_path = $('{0}\..' -f $PSScriptRoot)
-Write-host $('Rooth path: [{0}]' -f $Root_path)
+#$Root_path = $('{0}\..' -f $PSScriptRoot)
+$Root_path = $('{0}\..' -f $($MyInvocation.MyCommand.Definition | Split-Path))  #Backwards compatibility
+
+Write-host $('Root path: [{0}]' -f $Root_path)
 $global:CurrentFilePath = ''
 $global:Saved = $True
 
@@ -94,14 +96,15 @@ $SearchLabel.text = "Search Systems"
 $Form.Controls.Add($SearchLabel)
 
 # -- Add search box
-Write-Host 'Adding systems to Auto Complete Source'
+$SystemsPath = $('{0}\lib\{1}' -f $Root_path, 'systems.csv')
+Write-Host $('Adding systems to Auto Complete Source from [{0}]' -f $SystemsPath)
 
 $textBox = New-Object System.Windows.Forms.TextBox
 $textBox.Location = New-Object System.Drawing.Point(40, 220)
 $textBox.Size = New-Object System.Drawing.Size(225, 25)
 $textBox.AutoCompleteMode = 'SuggestAppend'
 $textBox.AutoCompleteSource = 'CustomSource'
-Get-content $('{0}\{1}' -f $PSScriptRoot, 'systems.csv') -ReadCount 1000 | ForEach-Object { $textbox.AutoCompleteCustomSource.AddRange($_) }
+Get-content -path $SystemsPath -ReadCount 1000 | ForEach-Object { $textbox.AutoCompleteCustomSource.AddRange($_) }
 $Form.Controls.Add($textBox)
 
 # -- Adding WP add button
@@ -129,7 +132,7 @@ $LocListBox.Size = New-Object System.Drawing.Size(375, 25)
 $LocListBox.name = 'Loc_Box'
 $LocListBox.DropDownStyle = 'DropDownList'
 # -- read commen locations CSV
-$ComLocs = Import-Csv $('{0}\{1}' -f $PSScriptRoot, 'Common_locations.csv')
+$ComLocs = Import-Csv $('{0}\lib\{1}' -f $Root_path, 'Common_locations.csv')
 
 # -- Distinct list of groups
 $groups = $ComLocs.group | Sort-Object -unique
