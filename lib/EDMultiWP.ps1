@@ -1,8 +1,7 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.VisualBasic") | Out-Null
 
-#$Root_path = $('{0}\..' -f $PSScriptRoot)
-$Root_path = $('{0}\..' -f $($MyInvocation.MyCommand.Definition | Split-Path))  #Backwards compatibility
+$Root_path = $($PSScriptRoot | Split-Path)
 
 Write-host $('Root path: [{0}]' -f $Root_path)
 $global:CurrentFilePath = ''

@@ -1,8 +1,6 @@
 [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 
-#$Root_path = $('{0}\..' -f $PSScriptRoot)
-$Root_path = $('{0}\..' -f $($MyInvocation.MyCommand.Definition | Split-Path))  #Backwards compatibility
-
+$Root_path = $($PSScriptRoot | Split-Path)
 
 $Font = New-Object System.Drawing.Font("Times New Roman", 14)
 
