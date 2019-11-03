@@ -1,8 +1,8 @@
 $WPAddClick = {
-
 	$SystemName = $textBox.Text
 
 	If ($SystemName -ne '') {
+		$SystemName =  $($SystemName -replace ' ','%20' -replace '\+', '%2B')
 		$systemMetadata = Invoke-WebRequest $('https://www.edsm.net/api-v1/system?systemName={0}&showCoordinates=1' -f $SystemName) -UseBasicParsing
 
 		If ($systemMetadata.content -match '{"name":"([^"]+)","coords":{"x":([\d.-]+),"y":([\d.-]+),"z":([\d.-]+)}') {

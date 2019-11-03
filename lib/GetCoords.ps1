@@ -9,7 +9,8 @@ Function GetCoords($DataGridViewRow) {
 	Else {
 		# if not we pull data from EDSM
 		# this will happen when we open a saved file
-		$systemMetadata = Invoke-WebRequest $('https://www.edsm.net/api-v1/system?systemName={0}&showCoordinates=1' -f $($DataGridViewRow.Cells[0].Value)) -UseBasicParsing
+		$SystemName =  $($DataGridViewRow.Cells[0].Value -replace ' ','%20' -replace '\+', '%2B')
+		$systemMetadata = Invoke-WebRequest $('https://www.edsm.net/api-v1/system?systemName={0}&showCoordinates=1' -f $SystemName) -UseBasicParsing
 
 		If ($systemMetadata.content -match '{"name":"([^"]+)","coords":{"x":([\d.-]+),"y":([\d.-]+),"z":([\d.-]+)}') {
 			$X = $matches[2]
